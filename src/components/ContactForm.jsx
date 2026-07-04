@@ -19,14 +19,40 @@ const ContactForm = () => {
     e.preventDefault();
     setStatus('submitting');
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      // 1. Use FormData as recommended by Web3Forms
+      const form = new FormData(e.target);
+      
+      // 2. Append your specific Access Key
+      form.append("access_key", "8bc33c95-a965-4e6a-82ca-8bf40e4c6e93");
+      
+      // 3. Optional: Add a custom subject line for your emails
+      form.append("subject", "New Portfolio Message from " + formData.name);
+      form.append("from_name", "Portfolio Contact Form");
+
+      // 4. Send the request
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: form
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' }); // Clear React state
+        e.target.reset(); // Clear the actual HTML form fields
+      } else {
+        setStatus('error');
+        console.error('Form submission failed:', data);
+      }
+    } catch (error) {
+      setStatus('error');
+      console.error('Network error:', error);
+    }
     
-    setStatus('success');
-    setFormData({ name: '', email: '', message: '' });
-    
-    // Reset status after 3 seconds
-    setTimeout(() => setStatus('idle'), 3000);
+    // Reset status after 4 seconds so the user can submit again later
+    setTimeout(() => setStatus('idle'), 4000);
   };
 
   return (
@@ -88,12 +114,31 @@ const ContactForm = () => {
             />
           </div>
 
+          {/* Error Message UI */}
+          {status === 'error' && (
+            <div className="p-4 bg-red-50 text-red-700 rounded-lg text-center text-sm">
+              Oops! Something went wrong. Please try again or email me directly.
+            </div>
+          )}
+
           <button
             type="submit"
-            disabled={status === 'submitting'}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+            disabled={status === 'submitting' || status === 'success'}
+            className={`w-full font-semibold py-3 px-6 rounded-lg transition-all duration-200 ${
+              status === 'success' 
+                ? 'bg-green-600 text-white cursor-default' 
+                : status === 'submitting'
+                ? 'bg-indigo-400 text-white cursor-not-allowed'
+                : 'bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-lg hover:-translate-y-0.5'
+            }`}
           >
-            {status === 'submitting' ? 'Sending...' : status === 'success' ? '✓ Message Sent!' : 'Send Message'}
+            {status === 'submitting' 
+              ? 'Sending...' 
+              : status === 'success' 
+              ? '✓ Message Sent!' 
+              : status === 'error'
+              ? 'Try Again'
+              : 'Send Message'}
           </button>
         </form>
       </div>
