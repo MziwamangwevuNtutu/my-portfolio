@@ -24,7 +24,7 @@ export const portfolioData = {
       description: "A dynamic dashboard for managing and exploring a movie library, built with React for the frontend and Java with Spring Boot for the backend.",
       tags: ["React", "Java", "MySQL"],
       image: movieLibraryImg,
-      link: "https://demo.com",
+      link: "https://teal-gingersnap-06b461.netlify.app/",
       repo: "https://github.com/MziwamangwevuNtutu/movie-library",
       repoBackend: "https://github.com/MziwamangwevuNtutu/Movie-Library-Backend"
     },

@@ -30,25 +30,24 @@ const ProjectCard = ({ project }) => {
         </div>
 
         {/* Links */}
-        <div className="flex items-center gap-4">
-          <a
-            href={project.repo}
-            className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors duration-200 flex items-center gap-1"
-          >
-            <span>📁</span> Front-end Code 
-          </a>
-           <a
-            href={project.repoBackend}
-            className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors duration-200 flex items-center gap-1"
-          >
-            <span>📁</span> Backend Code
-          </a>
-          <a
-            href={project.link}
-            className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors duration-200 flex items-center gap-1"
-          >
-            {/* <span>🚀</span> Live Demo */}
-          </a>
+        <div className="flex flex-wrap items-center gap-4">
+          {[
+            { href: project.repo, label: 'Front-end Code', icon: '📁' },
+            { href: project.repoBackend, label: 'Backend Code', icon: '📁' },
+            { href: project.link, label: 'Click here for a Live Demo' },
+          ]
+            .filter(({ href }) => href && href !== 'https://demo.com')
+            .map(({ href, label, icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold text-gray-700 hover:text-indigo-600 transition-colors duration-200 flex items-center gap-1"
+              >
+                <span>{icon}</span> {label}
+              </a>
+            ))}
         </div>
       </div>
     </div>
