@@ -34,7 +34,7 @@ export const portfolioData = {
       description: "A simple and efficient to-do list application built with React for the frontend and Java with Spring Boot for the backend.",
       tags: ["React", "Java", "MySQL"],
       image: TodoImg,
-      link: "https://demo.com",
+      link: "https://extraordinary-salmiakki-8a77d6.netlify.app/",
       repo: "https://github.com/MziwamangwevuNtutu/todo-frontend",
       repoBackend: "https://github.com/MziwamangwevuNtutu/ToDoList-Backend"
     },
